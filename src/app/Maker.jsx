@@ -6,7 +6,7 @@ import {
   TabContent, TabPane,
   Nav, NavItem, NavLink
  } from 'reactstrap';
-import ReactJson from 'react-json-view';
+// import ReactJson from 'react-json-view';
 
 import {
   Canvas,
@@ -200,7 +200,7 @@ class PageMaker extends Component {
             </Preview>
         }
         
-        {
+        {/* {
           this.state.activeTab == 3 &&
           <TabPane tabId="3">
           <Row className="mt-3">
@@ -209,7 +209,7 @@ class PageMaker extends Component {
             </Col>
           </Row>
         </TabPane>
-        }
+        } */}
            
       </TabContent>
     </div>

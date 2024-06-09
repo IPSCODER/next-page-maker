@@ -19,30 +19,37 @@ import {
 } from 'react-page-maker';
 
 import { elements } from './const';
-import DraggableTextbox from './elements/DraggableTextbox';
-import DraggableHeader from './elements/DraggableHeader';
-import DraggableMain from './elements/DraggableMain';
-import DraggableLayoutR1C2 from './elements/DraggableLayoutR1C2';
+import DraggableMain from './myElements/DraggableMain';
+import DraggableContainer1R1C from './myElements/DraggableContainer1R1C';
+import DraggableContainer1R2C from './myElements/DraggableContainer1R2C';
+import DraggableContainer1R3C from './myElements/DraggableContainer1R3C';
+import DraggableContainer1R4C from './myElements/DraggableContainer1R4C';
+import DraggableHeader from './myElements/DraggableHeader';
 
 import './maker.css';
 
 class PageMaker extends Component {
   constructor(props) {
     super(props);
-
     // register all palette elements
     registerPaletteElements([{
-      type: elements.TEXTBOX,
-      component: DraggableTextbox
-    },{
-      type: elements.HEADER,
-      component: DraggableHeader
-    },{
       type: elements.MAIN,
       component: DraggableMain
     },{
-      type: elements.GRID_LAYOUT_1_2,
-      component: DraggableLayoutR1C2
+      type: elements.CONTAINER_GRID_1R1C,
+      component: DraggableContainer1R1C
+    },{
+      type: elements.CONTAINER_GRID_1R2C,
+      component: DraggableContainer1R2C
+    },{
+      type: elements.CONTAINER_GRID_1R3C,
+      component: DraggableContainer1R3C
+    },{
+      type: elements.CONTAINER_GRID_1R4C,
+      component: DraggableContainer1R4C
+    },{
+      type: elements.HEADER,
+      component: DraggableHeader
     }]);
 
     // state.clearState() triggers this event
@@ -77,6 +84,7 @@ class PageMaker extends Component {
   _stateChange = (s) => {
     const newState = state.getStorableState();
     this.setState({ currentState: newState }, () => {
+      console.log(newState);
       localStorage.setItem('initialElements', JSON.stringify(newState));
     });
   }
@@ -86,26 +94,30 @@ class PageMaker extends Component {
 
   // define all palette elements that you want to show
   paletteItemsToBeRendered = [{
-    type: elements.TEXTBOX,
-    name: 'Text Field',
-    id: 'f1'
-  }, {
+    type: elements.MAIN,
+    name: 'Main',
+    id: 'Main'
+  },{
     type: elements.HEADER,
     name: 'Header',
-    id: 'h1'
+    id: 'Header'
   },{
-    type: elements.FORM,
-    name: 'FORM',
-    id: 'form'
+    type: elements.CONTAINER_GRID_1R1C,
+    name: 'Col1Row1',
+    id: 'Col1Row1'
   },{
-    type: elements.MAIN,
-    name: 'main',
-    id: 'main'
+    type: elements.CONTAINER_GRID_1R2C,
+    name: 'Col1Row2',
+    id: 'Col1Row2'
   },{
-    type: elements.GRID_LAYOUT_1_2,
-    name: 'DraggableLayoutR1C2',
-    id: 'DraggableLayoutR1C2'
-  },]
+    type: elements.CONTAINER_GRID_1R3C,
+    name: 'Col1Row3',
+    id: 'col1row3'
+  },{
+    type: elements.CONTAINER_GRID_1R4C,
+    name: 'Col1Row4',
+    id: 'Col1Row4'
+  }]
 
   _onDrop = (data, cb) => {
     // no need to ask id and name again
@@ -143,7 +155,7 @@ class PageMaker extends Component {
 
   render() {
     return (
-      <div className="App container px-10">
+      <div className="w-full px-5 h-full">
       <Nav tabs className="w-full flex justify-center gap-5 h-10">
         <NavItem>
           <NavLink
@@ -161,31 +173,22 @@ class PageMaker extends Component {
             Preview
           </NavLink>
         </NavItem>  
-        <NavItem>
-          <NavLink
-            className={`${this.state.activeTab === '3' ? 'active' : ''}`}
-            onClick={() => { this._toggleTab('3'); }}
-          >
-            JSON
-          </NavLink>
-        </NavItem>
       </Nav>
       <TabContent activeTab={this.state.activeTab} >
         {
           this.state.activeTab == 1 &&
-          <TabPane tabId="1">
-          <Row className="grid grid-cols-2 gap-5">
-            <Col className='h-full' >
-              <Canvas onDrop={this._onDrop} initialElements={this.initialElements} placeholder="Drop Here" className="h-full" />
-            </Col>
-            <Col sm="3">
+          <div className='w-full m-h-[100vh] flex gap-2' >
+            <span className='w-[20%] flex flex-col' >
               <Palette paletteElements={this.paletteItemsToBeRendered} />
               <Trash />
               <Button color="danger" onClick={this._clearState}>Flush Canvas</Button>
-            </Col>
+            </span>
+            <span className='w-[80%] flex flex-col' >
+              <Canvas onDrop={this._onDrop} initialElements={this.initialElements} placeholder="Drop Here" className="h-full" />
+            </span>
+              
             {/* <p className="col-span-2 m-auto h-10 flex items-center"><sup>*</sup>All canvas data is getting stored in localStorage. Try refresh, canvas will get pre-populate with previous state</p> */}
-          </Row>
-        </TabPane>
+        </div>
         }
         {
           this.state.activeTab == 2 &&

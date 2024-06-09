@@ -11,6 +11,10 @@ body {
   position: relative;
 }
 
+.main-canvas,.canvas{
+  height: 100%;
+}
+
 .color-picker {
   width: 100px;
   height: 30px;
@@ -55,10 +59,7 @@ svg {
   position: absolute;
 }
 
-header {
-  margin: 10px;
-  min-height: 100px;
-}
+
 
 .carousel__next-button,
 .carousel__back-button {
@@ -95,4 +96,31 @@ header {
 
 .page-builder .main-canvas {
   flex: 1;
+}
+
+.palette .drag-item {
+  background-color: #111;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.canvas.empty.dropzone{
+  border: 1px solid #111;
+  background: rgba(17, 17, 17, 0.123);
+  border-radius: 5px;
+  }
+  
+  .canvas.empty.dropzone p{
+    color: #111;
+}
+
+main > .dropzone{
+  min-height: 100vh;
+}
+
+div.palette {
+  padding: 0;
+  border: none;
 }

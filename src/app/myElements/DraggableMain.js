@@ -1,11 +1,33 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { BlockPicker } from 'react-color';
-import { Draggable, Dropzone } from 'react-page-maker';
+import { Draggable, Dropzone ,state } from 'react-page-maker';
 import {elements} from '../const';
 
 const DraggableMain = (props) => {
+
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [background, setBackground] = useState('');
+
+  const handleChangeComplete = (color) => {
+    const { id, dropzoneID, parentID } = props;
+    setBackground(color.hex);
+    state.updateElement(id, dropzoneID, parentID, {
+      payload: { background: color.hex }
+    });
+  };
+
+  const toggleColorPicker = () => {
+    setShowColorPicker(!showColorPicker);
+  };
+
+  const {
+    name, payload
+  } = props;
+
+  const defaultBackground = payload && payload.background || '#37d67a';
+
   const {
     dropzoneID,
     parentID,
@@ -48,7 +70,7 @@ const DraggableMain = (props) => {
 
   if (showPreview) {
     return (
-        <main className="w-full min-h-[100vh] bg-[#1114]">
+        <main className="w-full min-h-[100vh]" style={{ background: background || defaultBackground }} >
             <h1>Menu</h1>
               {rest.childNode['main']}
         </main>
@@ -62,7 +84,17 @@ const DraggableMain = (props) => {
   return (
     <Draggable {...props} >
       <span>{ rest.name }</span>
-      <main className="w-full min-h-[100vh]">
+      <main className="w-full min-h-[100vh]" style={{ background: background || defaultBackground }} >
+      <button onClick={toggleColorPicker} className="color-picker">
+          Set Color
+          {
+            showColorPicker &&
+            <BlockPicker
+              color={ background || defaultBackground }
+              onChangeComplete={ handleChangeComplete }
+            />
+          }
+        </button>
             <Dropzone
               {...dropzoneProps}
               initialElements={filterInitialElements('main')}

@@ -160,7 +160,7 @@ class PageMaker extends Component {
         <NavItem>
           <NavLink
             className={`${this.state.activeTab === '1' ? 'active' : ''}`}
-            onClick={() => { this._toggleTab('1'); }}
+            onClick={() => { this._toggleTab('1'); window.location.reload() }}
           >
             Canvas
           </NavLink>
@@ -168,7 +168,7 @@ class PageMaker extends Component {
         <NavItem>
           <NavLink
             className={`${this.state.activeTab === '2' ? 'active' : ''}`}
-            onClick={() => { this._toggleTab('2'); }}
+            onClick={() => { this._toggleTab('2'); state.removeEventListener('change', this._stateChange); }}
           >
             Preview
           </NavLink>

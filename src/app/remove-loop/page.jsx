@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 
 const ObjectStateExample = () => {
   const [items, setItems] = useState([
-    { id: 1, name: 'Apple', category: 'Fruit' },
-    { id: 2, name: 'Carrot', category: 'Vegetable' },
-    { id: 3, name: 'Bread', category: 'Bakery' }
+    // { id: 1, name: 'Apple', category: 'Fruit' },
+    // { id: 2, name: 'Carrot', category: 'Vegetable' },
+    // { id: 3, name: 'Bread', category: 'Bakery' }
   ]);
 
   const [visible,setVisble] = useState(false)
@@ -29,7 +29,11 @@ return <React.Fragment key={item.id} ></React.Fragment>
   },[visible])
   
   const add = () => {
-    setItems([...items,{id:items[items.length - 1].id+1,name:"demo",category:"demo"}])
+    if (items.length > 0) {
+        setItems([...items,{id:items[items.length - 1].id+1,name:"demo",category:"demo"}])
+    }else{
+        setItems([...items,{id:1,name:"demo",category:"demo"}])
+    }
   }
   console.log(items,"items");
   return (
